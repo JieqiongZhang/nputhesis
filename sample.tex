@@ -1,5 +1,5 @@
 %% UTF-8
-\documentclass[twoside,UTF8,phd]{nputhesis}
+\documentclass[twoside,UTF8,phd,multibib]{nputhesis}
 
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -97,7 +97,6 @@
 \section{思路}
 \section{代码}
 
-
 \backmatter
 \bibliographystyle{nputhesis}
 \bibliography{ref}
@@ -108,8 +107,15 @@ This is appendix.
 \Thanks
 This is a thanks.
 
-\Work
-% TODO 如何直接引用使参考文献的内容显示在这里
+
+%% 使用 multibib 选项, 可以用如下方式添加研究成果
+%% TODO 作者名自动加粗显示
+%% \work[<bibstyle>][<bib-file>][<bib-key-list>]
+%% e.g.
+%%     \Work[nputhesis]{ref}{zhao2017, qian2018, sun2019}
+\Work[nputhesis]{ref}{Zhang3040, Zhang3041}
+%% 不使用 multibib 选项时, \Work 仅用于生成标题
+% \Work
 
 \statement
 \end{document}

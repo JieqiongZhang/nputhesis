@@ -307,11 +307,30 @@
 \let\npu@chapter\chapter
 \def\npu@star@chapter#1{\npu@chapter{#1}}
 \def\chapter{\secdef\npu@chapter\npu@star@chapter}
+\AtBeginDocument{%
+  \@ifpackageloaded{natbib}{}{%
+    \let\@ldbibitem\bibitem
+    \def\gobble@ption[#1]{}
+    \def\bibitem{\expandafter\@ldbibitem\gobble@ption}
+    \def\bibpunct#1#2#3#4#5#6{}}}
 
 \newcounter{npu@c@appendix}
 \setcounter{npu@c@appendix}{0}
 \def\Appendix{ \addtocounter{npu@c@appendix}{1}\chapter{\npu@appendix\Alph{npu@c@appendix}}}
 \def\Thanks{\chapter{\npu@thanks}}
+\AtEndOfClass{%
+  \if@npu@multibib
+    \newcites{@work}{\npu@work}
+    \newcommand\Work[3][nputhesis]{%
+      \usecounter{enumiv}
+      \nocite@work{#3}
+      \bibliographystyle@work{#1}
+      \bibliography@work{#2}
+    }
+  \else
+    % \newcommand\Work[3][nputhesis]{\chapter{\npu@work}}
+    \newcommand\Work[0]{\chapter{\npu@work}}
+  \fi}
 
 \def\statement{
   \begin{titlepage}
@@ -354,17 +373,5 @@
 \theoremstyle{nputheorem} % set default style to nputheorem
 
 \input{nputhesis.cfg}
-
-\if@npu@multibib
-  \newcites{@work}{\npu@work}
-  \newcommand\Work[3][nputhesis]{%
-    \usecounter{enumiv}
-    \nocite@work{#3}
-    \bibliographystyle@work{#1}
-    \bibliography@work{#2}
-  }
-\else
-  \def\Work{\chapter{\npu@work}}
-\fi
 
 \endinput
